@@ -2,10 +2,19 @@ The clustering process is performed as follows:
 
 Key words: Triphone decision tress, tied state HMM, CI, context independent phones.
 
+A solution to these problems is in widespread use which involves pooling data associated with multiple context-dependent states 
+that have similar properties and combining them into a single “tied” or “shared” HMM state. This tied state, known 
+as a senone, is then used to compute the acoustic model scores for all of the original HMM states who’s data was pooled to create it.
+
+Grouping a set of context-dependent triphone states into a collection of senones is performed using a decision-tree clustering process. 
+A decision tree is constructed for every state of every context-independent phone.
+
 1. Merge all triphones with a common center phone from a particular state together to form the root node. For example, state 2 of all triphones of the form /*-p+*/
-EY P AX and AA P AX -- two triphones, aka two flavours of P. Tie the second state of these two triphones as a single entity for the purpose of training.
+EY P AX and AA P AX -- two triphones, aka two flavours of P. Tie the second state of these two triphones 
+as a single entity (called a senome).
 
 2. Grow the decision tree by asking a series of linguistic binary questions about the left or right context of the triphones. 
+(Doubt: does it mean the left and right context of the root node senome) 
 For example, "Is the left context phone a back vowel?" or "Is the right context phone voiced?" At each node, 
 choose the question with results in the largest increase in likelihood of the training data.
 
@@ -37,8 +46,7 @@ L_IH_NG has tags/leaves tag_112, tag_112_113, tag_112_113_114, tag_112_113_114_1
 Now train senones ag_112, tag_112_113, tag_112_113_114, tag_112_113_114_115, tag_112_113_114_116
 
 Even if you ever encounter a situation of not having enough data for a very specific senome, you might get data from a related senome
-Example you might never get tag_112_113_114_115 but might have tag_112_113_114. So it works out. You said get about 3000 senomes 
-and 9000 senome/hmm states
+Example you might never get tag_112_113_114_115 but might have tag_112_113_114. So it works out. You get about 9000 senome/hmm states
 
 
 
